@@ -1,7 +1,3 @@
-// ==============================
-// SUPABASE CONFIG (ADD KEY HERE)
-// ==============================
-
 const SUPABASE_URL = "https://npukjptnqdlvwkejobby.supabase.co";
 const SUPABASE_KEY = "sb_publishable_4Gq4e044KeJvhdrdXHCKQw_gWQrAs30";
 
