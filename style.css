@@ -1,54 +1,33 @@
-body {
-  font-family: Helvetica, Arial, sans-serif;
-  background: #1C0A06;
-  color: #EAEAEA;
-  text-align: center;
-  margin: 0;
-  padding: 40px;
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
 
-/* títulos */
-h1, h2 {
-  font-weight: 600;
-  margin-bottom: 20px;
-}
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
 
-/* inputs */
-input {
-  padding: 12px;
-  margin: 8px;
-  width: 250px;
-  border: none;
-  background: #3F3F3F;
-  color: white;
-  outline: none;
-}
+<body>
 
-/* botones */
-button {
-  padding: 12px 20px;
-  margin: 10px;
-  border: none;
-  background: #8B2C1B;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-}
+<h1>Leave a review & win</h1>
 
-/* hover elegante */
-button:hover {
-  background: #6E1F10;
-}
+<button onclick="goReview()">Leave Review</button>
 
-/* ruleta */
-#wheel {
-  display: none;
-  margin-top: 30px;
-}
+<br><br>
 
-/* resultado */
-#result {
-  margin-top: 20px;
-  font-size: 20px;
-  color: #EAEAEA;
-}
+<button id="unlock" disabled>Unlock Spin</button>
+
+<div id="wheel">
+  <h2>🎡 Spin</h2>
+  <button onclick="spin()">SPIN</button>
+</div>
+
+<div id="result"></div>
+
+<input id="email" placeholder="Your email">
+<button onclick="save()">Claim reward</button>
+
+<script src="app.js"></script>
+
+</body>
+</html>
