@@ -1,6 +1,21 @@
-let prizes = JSON.parse(localStorage.getItem("prizes")) || [];
+// ==============================
+// SUPABASE CONFIG (ADD KEY HERE)
+// ==============================
 
-// -------- DASHBOARD --------
+const SUPABASE_URL = "https://npukjptnqdlvwkejobby.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4Gq4e044KeJvhdrdXHCKQw_gWQrAs30";
+
+let supabase = null;
+
+if (window.supabase) {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
+// ==============================
+// DASHBOARD
+// ==============================
+
+let prizes = JSON.parse(localStorage.getItem("prizes")) || [];
 
 function addPrize(){
   let name = document.getElementById("name").value;
@@ -28,7 +43,9 @@ function render(){
 
   html += `<p>Total: ${total}%</p>`;
 
-  document.getElementById("list").innerHTML = html;
+  if(document.getElementById("list")){
+    document.getElementById("list").innerHTML = html;
+  }
 }
 
 if(document.getElementById("link")){
@@ -38,7 +55,9 @@ if(document.getElementById("link")){
 
 render();
 
-// -------- REVIEW SYSTEM --------
+// ==============================
+// REVIEW SYSTEM
+// ==============================
 
 let startTime = null;
 
@@ -53,19 +72,25 @@ document.addEventListener("visibilitychange", ()=>{
 
     if(time > 10){
       let unlockBtn = document.getElementById("unlock");
-      unlockBtn.disabled = false;
-      unlockBtn.innerText = "Spin Unlocked";
+      if(unlockBtn){
+        unlockBtn.disabled = false;
+        unlockBtn.innerText = "Spin Unlocked";
+      }
     }
   }
 });
 
-// -------- UNLOCK --------
+// ==============================
+// UNLOCK
+// ==============================
 
 document.getElementById("unlock")?.addEventListener("click", ()=>{
   document.getElementById("wheel").style.display = "block";
 });
 
-// -------- SPIN LOGIC --------
+// ==============================
+// SPIN LOGIC
+// ==============================
 
 function spin(){
   let rand = Math.random() * 100;
@@ -86,15 +111,19 @@ function spin(){
   }
 }
 
-// -------- CODE GENERATION --------
+// ==============================
+// CODE GENERATION
+// ==============================
 
 function generateCode(){
   return "CODE-" + Math.floor(Math.random() * 99999);
 }
 
-// -------- SAVE LEAD --------
+// ==============================
+// SAVE TO DATABASE
+// ==============================
 
-function save(){
+async function save(){
   let email = document.getElementById("email").value;
   let prize = localStorage.getItem("win");
   let code = localStorage.getItem("code");
@@ -104,11 +133,23 @@ function save(){
     return;
   }
 
-  console.log("SAVE:", email, prize, code);
+  if(!supabase){
+    alert("Supabase not connected");
+    return;
+  }
 
-  alert(
-    "Reward sent!\n\n" +
-    "Prize: " + prize +
-    "\nCode: " + code
-  );
+  const { error } = await supabase
+    .from('leads')
+    .insert([{ email, prize, code }]);
+
+  if(error){
+    alert("Error saving data");
+    console.log(error);
+  } else {
+    alert(
+      "Reward saved!\n\n" +
+      "Prize: " + prize +
+      "\nCode: " + code
+    );
+  }
 }
