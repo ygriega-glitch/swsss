@@ -1,0 +1,54 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  background: #1C0A06;
+  color: #EAEAEA;
+  text-align: center;
+  margin: 0;
+  padding: 40px;
+}
+
+/* títulos */
+h1, h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* inputs */
+input {
+  padding: 12px;
+  margin: 8px;
+  width: 250px;
+  border: none;
+  background: #3F3F3F;
+  color: white;
+  outline: none;
+}
+
+/* botones */
+button {
+  padding: 12px 20px;
+  margin: 10px;
+  border: none;
+  background: #8B2C1B;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* hover elegante */
+button:hover {
+  background: #6E1F10;
+}
+
+/* ruleta */
+#wheel {
+  display: none;
+  margin-top: 30px;
+}
+
+/* resultado */
+#result {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #EAEAEA;
+}
