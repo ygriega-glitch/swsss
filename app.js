@@ -1,7 +1,10 @@
 const SUPABASE_URL = "https://npukjptnqdlvwkejobby.supabase.co";
 const SUPABASE_KEY = "sb_publishable_4Gq4e044KeJvhdrdXHCKQw_gWQrAs30";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// 🔥 FIX IMPORTANTE
+const supabase = window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null;
 
 // ===================
 // NAVIGATION
@@ -12,16 +15,33 @@ function showSection(id) {
     sec.style.display = "none";
   });
 
-  document.getElementById(id).style.display = "block";
+  const el = document.getElementById(id);
+  if (el) el.style.display = "block";
 }
 
 // ===================
-// CREATE CAMPAIGN + QR
+// INIT (IMPORTANTE)
+// ===================
+
+document.addEventListener("DOMContentLoaded", () => {
+  showSection("dashboard");
+});
+
+// ===================
+// CREATE CAMPAIGN
 // ===================
 
 async function createCampaign() {
-  const name = document.getElementById("campaignName").value;
-  const reviewLink = document.getElementById("reviewLink").value;
+
+  console.log("CLICK");
+
+  if (!supabase) {
+    alert("Supabase not loaded");
+    return;
+  }
+
+  const name = document.getElementById("campaignName")?.value;
+  const reviewLink = document.getElementById("reviewLink")?.value;
 
   if (!name || !reviewLink) {
     alert("Fill all fields");
@@ -40,7 +60,7 @@ async function createCampaign() {
 
   if (error) {
     console.log(error);
-    alert("Error");
+    alert("Error creating campaign");
     return;
   }
 
@@ -48,22 +68,5 @@ async function createCampaign() {
 
   const link = window.location.origin + "/play.html?campaign=" + campaign.id;
 
-  // Mostrar link
-  document.getElementById("result").innerHTML =
-    "<p><b>Campaign created:</b></p>" +
-    "<p>" + link + "</p>";
-
-  // Generar QR
-  document.getElementById("qrBox").innerHTML = "";
-
-  QRCode.toCanvas(link, function (err, canvas) {
-    if (!err) {
-      document.getElementById("qrBox").appendChild(canvas);
-    }
-  });
-
-  document.getElementById("qrLink").innerText = link;
-
-  // Ir a QR automáticamente
-  showSection("qr");
+  alert("Campaign created!\n\n" + link);
 }
