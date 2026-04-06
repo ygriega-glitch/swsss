@@ -5,14 +5,12 @@ body {
   color: #EAEAEA;
 }
 
-/* layout */
 .app {
   display: flex;
 }
 
-/* sidebar */
 .sidebar {
-  width: 220px;
+  width: 240px;
   background: #8B2C1B;
   height: 100vh;
   padding: 20px;
@@ -26,7 +24,7 @@ body {
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 12px;
   background: transparent;
   border: none;
   color: white;
@@ -38,13 +36,11 @@ body {
   background: rgba(255,255,255,0.1);
 }
 
-/* main */
 .main {
   flex: 1;
   padding: 30px;
 }
 
-/* cards */
 .cards {
   display: flex;
   gap: 20px;
@@ -58,14 +54,12 @@ body {
   border-radius: 8px;
 }
 
-/* section */
 .section {
   background: #3F3F3F;
   padding: 20px;
   border-radius: 8px;
 }
 
-/* inputs */
 input {
   display: block;
   margin: 10px 0;
@@ -76,11 +70,14 @@ input {
   color: white;
 }
 
-/* button */
 button {
   padding: 10px 20px;
   background: #6E1F10;
   border: none;
   color: white;
   cursor: pointer;
+}
+
+.sectionPage {
+  display: none;
 }
