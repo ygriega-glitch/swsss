@@ -1,33 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="style.css">
+body {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background: #1C0A06;
+  color: #EAEAEA;
+}
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-</head>
+/* layout */
+.app {
+  display: flex;
+}
 
-<body>
+/* sidebar */
+.sidebar {
+  width: 220px;
+  background: #8B2C1B;
+  height: 100vh;
+  padding: 20px;
+}
 
-<h1>Leave a review & win</h1>
+.sidebar h2 {
+  margin-bottom: 30px;
+}
 
-<button onclick="goReview()">Leave Review</button>
+.sidebar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
 
-<br><br>
+.sidebar button:hover {
+  background: rgba(255,255,255,0.1);
+}
 
-<button id="unlock" disabled>Unlock Spin</button>
+/* main */
+.main {
+  flex: 1;
+  padding: 30px;
+}
 
-<div id="wheel">
-  <h2>🎡 Spin</h2>
-  <button onclick="spin()">SPIN</button>
-</div>
+/* cards */
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
 
-<div id="result"></div>
+.card {
+  background: #3F3F3F;
+  padding: 20px;
+  flex: 1;
+  border-radius: 8px;
+}
 
-<input id="email" placeholder="Your email">
-<button onclick="save()">Claim reward</button>
+/* section */
+.section {
+  background: #3F3F3F;
+  padding: 20px;
+  border-radius: 8px;
+}
 
-<script src="app.js"></script>
+/* inputs */
+input {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  width: 300px;
+  background: #1C0A06;
+  border: none;
+  color: white;
+}
 
-</body>
-</html>
+/* button */
+button {
+  padding: 10px 20px;
+  background: #6E1F10;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
