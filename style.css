@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial;
   background: #1C0A06;
-  color: #EAEAEA;
+  color: white;
 }
 
 .app {
@@ -10,25 +10,20 @@ body {
 }
 
 .sidebar {
-  width: 240px;
+  width: 220px;
   background: #8B2C1B;
   height: 100vh;
   padding: 20px;
 }
 
-.sidebar h2 {
-  margin-bottom: 30px;
-}
-
 .sidebar button {
   display: block;
+  margin: 10px 0;
+  padding: 10px;
   width: 100%;
-  margin-bottom: 10px;
-  padding: 12px;
-  background: transparent;
+  background: none;
   border: none;
   color: white;
-  text-align: left;
   cursor: pointer;
 }
 
@@ -41,43 +36,35 @@ body {
   padding: 30px;
 }
 
-.cards {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
 .card {
-  background: #3F3F3F;
+  background: #333;
   padding: 20px;
-  flex: 1;
-  border-radius: 8px;
-}
-
-.section {
-  background: #3F3F3F;
-  padding: 20px;
-  border-radius: 8px;
+  margin: 10px;
+  display: inline-block;
 }
 
 input {
   display: block;
   margin: 10px 0;
-  padding: 12px;
+  padding: 10px;
   width: 300px;
-  background: #1C0A06;
-  border: none;
-  color: white;
 }
 
 button {
-  padding: 10px 20px;
   background: #6E1F10;
-  border: none;
   color: white;
-  cursor: pointer;
+  padding: 10px;
+  border: none;
 }
 
 .sectionPage {
   display: none;
+}
+
+#dashboard {
+  display: block;
+}
+
+#qrBox canvas {
+  margin-top: 20px;
 }
