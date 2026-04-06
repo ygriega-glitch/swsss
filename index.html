@@ -7,19 +7,47 @@
 
 <body>
 
-<h1>Dashboard</h1>
+<div class="app">
 
-<input id="name" placeholder="Prize name">
-<input id="chance" placeholder="Probability %">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>SMB</h2>
 
-<button onclick="addPrize()">Add Prize</button>
+    <button>Dashboard</button>
+    <button>Campaigns</button>
+    <button>Rewards</button>
+    <button>Leads</button>
+    <button>Analytics</button>
+    <button>QR Codes</button>
+    <button>Help Center</button>
+  </div>
 
-<div id="list"></div>
+  <!-- MAIN -->
+  <div class="main">
 
-<h2>Your QR Link</h2>
-<p id="link"></p>
+    <h1>Dashboard</h1>
 
-<script src="app.js"></script>
+    <!-- STATS -->
+    <div class="cards">
+      <div class="card">Scans: 0</div>
+      <div class="card">Leads: 0</div>
+      <div class="card">Conversion: 0%</div>
+      <div class="card">Rewards: 0</div>
+    </div>
+
+    <!-- CREATE CAMPAIGN -->
+    <div class="section">
+      <h2>Create Campaign</h2>
+
+      <input id="campaignName" placeholder="Business Name">
+      <input id="reviewLink" placeholder="Google Review Link">
+
+      <button>Create Campaign</button>
+    </div>
+
+  </div>
+
+</div>
 
 </body>
 </html>
