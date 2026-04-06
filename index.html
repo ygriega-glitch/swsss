@@ -1,82 +1,166 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Scale My Business</title>
 
-  <link rel="stylesheet" href="style.css">
-
   <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- QR GENERATOR -->
+  <!-- QR -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #1c0a06;
+      color: white;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: #8b2c1b;
+      height: 100vh;
+      position: fixed;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: none;
+      border: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .main {
+      margin-left: 240px;
+      padding: 30px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    input {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+    }
+
+    button.main-btn {
+      background: #6e1f10;
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    #qr canvas {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="sidebar">
+  <h2>Scale My Business</h2>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>Scale My Business</h2>
+  <button onclick="show('dashboard')">Dashboard</button>
+  <button onclick="show('campaign')">Campaigns</button>
+  <button onclick="show('qr')">QR Codes</button>
+</div>
 
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="showSection('campaigns')">Campaigns</button>
-    <button onclick="showSection('qr')">QR Codes</button>
-    <button onclick="showSection('help')">Help Center</button>
+<div class="main">
+
+  <div id="dashboard" class="section active">
+    <h1>Dashboard</h1>
+    <p>Ready</p>
   </div>
 
-  <!-- MAIN -->
-  <div class="main">
+  <div id="campaign" class="section">
+    <h1>Create Campaign</h1>
 
-    <!-- DASHBOARD -->
-    <div id="dashboard" class="sectionPage">
-      <h1>Dashboard</h1>
+    <input id="name" placeholder="Business Name">
+    <input id="link" placeholder="Google Review Link">
 
-      <div class="cards">
-        <div class="card">Scans: 0</div>
-        <div class="card">Leads: 0</div>
-        <div class="card">Conversion: 0%</div>
-        <div class="card">Rewards: 0</div>
-      </div>
-    </div>
+    <button class="main-btn" onclick="create()">Create Campaign</button>
 
-    <!-- CAMPAIGNS -->
-    <div id="campaigns" class="sectionPage">
-      <h1>Create Campaign</h1>
+    <div id="result"></div>
+  </div>
 
-      <input id="campaignName" placeholder="Business Name">
-      <input id="reviewLink" placeholder="Google Review Link">
+  <div id="qr" class="section">
+    <h1>QR Code</h1>
 
-      <button onclick="createCampaign()">Create Campaign</button>
-
-      <div id="result"></div>
-    </div>
-
-    <!-- QR -->
-    <div id="qr" class="sectionPage">
-      <h1>QR Generator</h1>
-
-      <div id="qrBox"></div>
-      <p id="qrLink"></p>
-    </div>
-
-    <!-- HELP -->
-    <div id="help" class="sectionPage">
-      <h1>Help Center</h1>
-
-      <p><strong>Why reviews matter:</strong></p>
-      <p>If you see 4.7⭐ with many reviews vs 3.9⭐ with few… which one do you trust?</p>
-
-      <p><strong>Best phrase:</strong></p>
-      <p>"Leave us a review and get a reward 🎁"</p>
-    </div>
-
+    <div id="qrcode"></div>
+    <p id="qrtext"></p>
   </div>
 
 </div>
 
-<script src="app.js"></script>
+<script>
+  function show(id) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+
+  const supabase = window.supabase.createClient(
+    "https://npukjptnqdlvwkejobby.supabase.co",
+    "PEGA_AQUI_TU_API_KEY"
+  );
+
+  async function create() {
+    const name = document.getElementById("name").value;
+    const link = document.getElementById("link").value;
+
+    if (!name || !link) {
+      alert("Fill fields");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("campaigns")
+      .insert([{ name, google_review_link: link }])
+      .select();
+
+    if (error) {
+      alert("Error");
+      console.log(error);
+      return;
+    }
+
+    const id = data[0].id;
+
+    const url = window.location.origin + "/play.html?campaign=" + id;
+
+    document.getElementById("result").innerHTML = url;
+
+    // QR
+    document.getElementById("qrcode").innerHTML = "";
+    QRCode.toCanvas(url, function (err, canvas) {
+      document.getElementById("qrcode").appendChild(canvas);
+    });
+
+    document.getElementById("qrtext").innerText = url;
+
+    show("qr");
+  }
+</script>
 
 </body>
 </html>
