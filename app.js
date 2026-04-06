@@ -15,8 +15,10 @@ function showSection(id) {
   document.getElementById(id).style.display = "block";
 }
 
-// default load
-showSection("dashboard");
+// 🔥 IMPORTANTE: esperar a que cargue la página
+document.addEventListener("DOMContentLoaded", () => {
+  showSection("dashboard");
+});
 
 // ===================
 // CREATE CAMPAIGN
