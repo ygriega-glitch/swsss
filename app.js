@@ -15,18 +15,11 @@ function showSection(id) {
   document.getElementById(id).style.display = "block";
 }
 
-// 🔥 IMPORTANTE: esperar a que cargue la página
-document.addEventListener("DOMContentLoaded", () => {
-  showSection("dashboard");
-});
-
 // ===================
-// CREATE CAMPAIGN
+// CREATE CAMPAIGN + QR
 // ===================
 
 async function createCampaign() {
-  console.log("CLICK DETECTED");
-
   const name = document.getElementById("campaignName").value;
   const reviewLink = document.getElementById("reviewLink").value;
 
@@ -47,7 +40,7 @@ async function createCampaign() {
 
   if (error) {
     console.log(error);
-    alert("Error creating campaign");
+    alert("Error");
     return;
   }
 
@@ -55,5 +48,22 @@ async function createCampaign() {
 
   const link = window.location.origin + "/play.html?campaign=" + campaign.id;
 
-  alert("Campaign created!\n\n" + link);
+  // Mostrar link
+  document.getElementById("result").innerHTML =
+    "<p><b>Campaign created:</b></p>" +
+    "<p>" + link + "</p>";
+
+  // Generar QR
+  document.getElementById("qrBox").innerHTML = "";
+
+  QRCode.toCanvas(link, function (err, canvas) {
+    if (!err) {
+      document.getElementById("qrBox").appendChild(canvas);
+    }
+  });
+
+  document.getElementById("qrLink").innerText = link;
+
+  // Ir a QR automáticamente
+  showSection("qr");
 }
