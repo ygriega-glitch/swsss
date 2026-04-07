@@ -1,165 +1,179 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Scale My Business</title>
+<meta charset="UTF-8">
+<title>Scale My Business</title>
 
-  <!-- SUPABASE -->
-<script src="https://unpkg.com/@supabase/supabase-js"></script>
-  <!-- QR -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<!-- QR -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #1c0a06;
-      color: white;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Helvetica, Arial;
+  background: #1C0A06;
+  color: #EAEAEA;
+}
 
-    .sidebar {
-      width: 220px;
-      background: #8b2c1b;
-      height: 100vh;
-      position: fixed;
-      padding: 20px;
-    }
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: #8B2C1B;
+  position: fixed;
+  padding: 20px;
+}
 
-    .sidebar h2 {
-      margin-bottom: 30px;
-    }
+.sidebar h1 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
 
-    .sidebar button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      background: none;
-      border: none;
-      color: white;
-      text-align: left;
-      cursor: pointer;
-    }
+.menu-item {
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+}
 
-    .main {
-      margin-left: 240px;
-      padding: 30px;
-    }
+.menu-item:hover {
+  background: rgba(255,255,255,0.1);
+}
 
-    .section {
-      display: none;
-    }
+/* MAIN */
+.main {
+  margin-left: 260px;
+  padding: 30px;
+}
 
-    .active {
-      display: block;
-    }
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+}
 
-    input {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      width: 300px;
-    }
+.card {
+  background: #2a120d;
+  padding: 20px;
+  border-radius: 12px;
+  min-width: 150px;
+}
 
-    button.main-btn {
-      background: #6e1f10;
-      padding: 10px 20px;
-      border: none;
-      color: white;
-      cursor: pointer;
-    }
+/* SECTION */
+.section {
+  display: none;
+}
 
-    #qr canvas {
-      margin-top: 20px;
-    }
-  </style>
+.active {
+  display: block;
+}
+
+/* BUTTON */
+button {
+  background: #8B2C1B;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+}
+</style>
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
-  <h2>Scale My Business</h2>
+  <h1>Scale My Business</h1>
 
-  <button onclick="show('dashboard')">Dashboard</button>
-  <button onclick="show('campaign')">Campaigns</button>
-  <button onclick="show('qr')">QR Codes</button>
+  <div class="menu-item" onclick="showSection('dashboard')">Dashboard</div>
+  <div class="menu-item" onclick="showSection('campaigns')">Campaigns</div>
+  <div class="menu-item" onclick="showSection('rewards')">Rewards</div>
+  <div class="menu-item" onclick="showSection('leads')">Leads</div>
+  <div class="menu-item" onclick="showSection('analytics')">Analytics</div>
+  <div class="menu-item" onclick="showSection('qr')">QR Codes</div>
+  <div class="menu-item" onclick="showSection('help')">Help Center</div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
-  <div id="dashboard" class="section active">
-    <h1>Dashboard</h1>
-    <p>Ready</p>
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
+  <h1>Dashboard</h1>
+  <div class="cards">
+    <div class="card">Scans: <span id="scans">0</span></div>
+    <div class="card">Leads: <span id="leads">0</span></div>
+    <div class="card">Conversion: <span id="conversion">0%</span></div>
+    <div class="card">Rewards: <span id="rewardsCount">0</span></div>
   </div>
+</div>
 
-  <div id="campaign" class="section">
-    <h1>Create Campaign</h1>
+<!-- CAMPAIGNS -->
+<div id="campaigns" class="section">
+  <h1>Campaigns</h1>
 
-    <input id="name" placeholder="Business Name">
-    <input id="link" placeholder="Google Review Link">
+  <input id="campaignName" placeholder="Business Name">
+  <input id="reviewLink" placeholder="Google Review Link">
 
-    <button class="main-btn" onclick="create()">Create Campaign</button>
+  <button onclick="createCampaign()">Create Campaign</button>
 
-    <div id="result"></div>
-  </div>
+  <div id="campaignList"></div>
+</div>
 
-  <div id="qr" class="section">
-    <h1>QR Code</h1>
+<!-- REWARDS -->
+<div id="rewards" class="section">
+  <h1>Rewards</h1>
+  <p>Coming next step</p>
+</div>
 
-    <div id="qrcode"></div>
-    <p id="qrtext"></p>
-  </div>
+<!-- LEADS -->
+<div id="leads" class="section">
+  <h1>Leads</h1>
+  <p>Coming next step</p>
+</div>
+
+<!-- ANALYTICS -->
+<div id="analytics" class="section">
+  <h1>Analytics</h1>
+  <p>Coming next step</p>
+</div>
+
+<!-- QR -->
+<div id="qr" class="section">
+  <h1>QR Codes</h1>
+
+  <input id="qrLink" placeholder="Paste campaign link">
+
+  <button onclick="generateQR()">Generate QR</button>
+
+  <canvas id="qrCanvas"></canvas>
+</div>
+
+<!-- HELP -->
+<div id="help" class="section">
+  <h1>Help Center</h1>
+
+  <h3>Why reviews matter</h3>
+  <p>If you are choosing a restaurant, would you go to one with 4.7⭐ and 300 reviews, or 3.9⭐ with 10?</p>
+
+  <h3>How to get more reviews</h3>
+  <p>"Hey! If you enjoyed your experience, you can leave us a quick Google review and get a reward 🎁"</p>
+
+  <h3>Where to place QR codes</h3>
+  <p>Tables, counters, takeaway packaging</p>
+</div>
 
 </div>
 
-<script>
-  function show(id) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-  }
-
-  const supabase = window.supabase.createClient(
-    "https://npukjptnqdlvwkejobby.supabase.co",
-    "sb_publishable_4Gq4e044KeJvhdrdXHCKQw_gWQrAs30"
-  );
-
-  async function create() {
-    const name = document.getElementById("name").value;
-    const link = document.getElementById("link").value;
-
-    if (!name || !link) {
-      alert("Fill fields");
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("campaigns")
-      .insert([{ name, google_review_link: link }])
-      .select();
-
-    if (error) {
-      alert("Error");
-      console.log(error);
-      return;
-    }
-
-    const id = data[0].id;
-
-    const url = window.location.origin + "/play.html?campaign=" + id;
-
-    document.getElementById("result").innerHTML = url;
-
-    // QR
-    document.getElementById("qrcode").innerHTML = "";
-    QRCode.toCanvas(url, function (err, canvas) {
-      document.getElementById("qrcode").appendChild(canvas);
-    });
-
-    document.getElementById("qrtext").innerText = url;
-
-    show("qr");
-  }
-</script>
+<script src="./app.js"></script>
 
 </body>
 </html>
