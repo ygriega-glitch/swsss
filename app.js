@@ -1,72 +1,59 @@
-const SUPABASE_URL = "https://npukjptnqdlvwkejobby.supabase.co";
-const SUPABASE_KEY = "sb_publishable_4Gq4e044KeJvhdrdXHCKQw_gWQrAs30";
-
-// 🔥 FIX IMPORTANTE
-const supabase = window.supabase
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-  : null;
-
-// ===================
-// NAVIGATION
-// ===================
-
 function showSection(id) {
-  document.querySelectorAll(".sectionPage").forEach(sec => {
-    sec.style.display = "none";
+  document.querySelectorAll('.section').forEach(sec => {
+    sec.classList.remove('active');
   });
 
-  const el = document.getElementById(id);
-  if (el) el.style.display = "block";
+  document.getElementById(id).classList.add('active');
 }
 
-// ===================
-// INIT (IMPORTANTE)
-// ===================
+let campaigns = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-  showSection("dashboard");
-});
+function createCampaign() {
+  const name = document.getElementById("campaignName").value;
+  const link = document.getElementById("reviewLink").value;
 
-// ===================
-// CREATE CAMPAIGN
-// ===================
-
-async function createCampaign() {
-
-  console.log("CLICK");
-
-  if (!supabase) {
-    alert("Supabase not loaded");
-    return;
-  }
-
-  const name = document.getElementById("campaignName")?.value;
-  const reviewLink = document.getElementById("reviewLink")?.value;
-
-  if (!name || !reviewLink) {
+  if (!name || !link) {
     alert("Fill all fields");
     return;
   }
 
-  const { data, error } = await supabase
-    .from("campaigns")
-    .insert([
-      {
-        name: name,
-        google_review_link: reviewLink
-      }
-    ])
-    .select();
+  const campaign = { name, link };
+  campaigns.push(campaign);
 
-  if (error) {
-    console.log(error);
-    alert("Error creating campaign");
+  renderCampaigns();
+
+  document.getElementById("campaignName").value = "";
+  document.getElementById("reviewLink").value = "";
+
+  alert("Campaign created");
+}
+
+function renderCampaigns() {
+  const container = document.getElementById("campaignList");
+  container.innerHTML = "";
+
+  campaigns.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <h3>${c.name}</h3>
+      <p>${c.link}</p>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function generateQR() {
+  const link = document.getElementById("qrLink").value;
+
+  if (!link) {
+    alert("Paste a link");
     return;
   }
 
-  const campaign = data[0];
+  const canvas = document.getElementById("qrCanvas");
 
-  const link = window.location.origin + "/play.html?campaign=" + campaign.id;
-
-  alert("Campaign created!\n\n" + link);
+  QRCode.toCanvas(canvas, link, function (error) {
+    if (error) console.error(error);
+  });
 }
